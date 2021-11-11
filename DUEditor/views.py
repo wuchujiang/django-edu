@@ -18,7 +18,6 @@ import urllib.request
 
 from DUEditor.utils import get_filename
 
-
 def get_path_format_vars():
     return {
         "year":datetime.datetime.now().strftime("%Y"),
