@@ -47,7 +47,7 @@ class CourseOrg(models.Model):
         return self.name
 
     def get_teacher_nums(self):
-        return self.teacher_set.all.count()
+        return self.teacher_set.all().count()
 
 
 class Teacher(models.Model):

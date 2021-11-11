@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -34,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
+    'django.contrib.auth.backends.AllowAllUsersModelBackend'
 )
 
 AUTH_USER_MODEL = "users.UserProfile"
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'courses',
+    'captcha',
     'organization',
     'operation',
     'DUEditor'
@@ -79,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -136,6 +140,13 @@ USE_L10N = True
 USE_TZ = False
 
 
+EMAIL_HOST = "smtp.qq.com"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "344259261@qq.com"
+EMAIL_HOST_PASSWORD = "wluukokahqfxcacj"
+EMAIL_USE_TLS= False
+EMAIL_FROM = "344259261@qq.com"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -149,3 +160,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

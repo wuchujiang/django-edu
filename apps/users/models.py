@@ -25,7 +25,7 @@ class UserProfile(AbstractUser):
         return self.username
 
     def unread_nums(self):
-        from apps.operation.models import UserMessage
+        from operation.models import UserMessage
         return UserMessage.objects.filter(user=self.id, has_read=False).count()
 
 

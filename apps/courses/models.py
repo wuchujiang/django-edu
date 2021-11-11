@@ -37,7 +37,7 @@ class Course(models.Model):
 
     # 获取课程章节数
     def get_zj_nums(self):
-        return self.lesson_set.all.count()
+        return self.lesson_set.all().count()
 
     get_zj_nums.short_description = "章节数"
 
