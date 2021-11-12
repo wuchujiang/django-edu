@@ -97,10 +97,10 @@ WSGI_APPLICATION = 'edu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_mysql',
-        'USER': 'root', # 账号
+        'NAME': 'django',
+        'USER': 'wcj', # 账号
         'PASSWORD': '344259261', # 密码
-        'HOST': '127.0.0.1', # HOST
+        'HOST': '121.41.120.162', # HOST
         'POST': 3306, # 端口
     }
 }
