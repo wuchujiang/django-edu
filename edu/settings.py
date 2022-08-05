@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -40,8 +39,10 @@ AUTHENTICATION_BACKENDS = (
 
 AUTH_USER_MODEL = "users.UserProfile"
 
-
 # Application definition
+
+import time
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,12 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'courses',
     'captcha',
-    'organization',
-    'operation',
-    'DUEditor'
+    'DUEditor',
+    'goods',
+    'trade',
+    'users',
+    'user_operation',
+    'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -65,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -88,8 +92,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'edu.wsgi.application'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
+
+WSGI_APPLICATION = 'edu.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -97,14 +110,13 @@ WSGI_APPLICATION = 'edu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',
-        'USER': 'wcj', # 账号
-        'PASSWORD': '344259261', # 密码
-        'HOST': '121.41.120.162', # HOST
-        'POST': 3306, # 端口
+        'NAME': 'mxshop',
+        'USER': 'wcj',  # 账号
+        'PASSWORD': '344259261',  # 密码
+        'HOST': '121.41.120.162',  # HOST
+        'POST': 3306,  # 端口
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -124,7 +136,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -139,12 +150,11 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
 EMAIL_HOST_USER = "344259261@qq.com"
 EMAIL_HOST_PASSWORD = "wluukokahqfxcacj"
-EMAIL_USE_TLS= False
+EMAIL_USE_TLS = False
 EMAIL_FROM = "344259261@qq.com"
 
 # Static files (CSS, JavaScript, Images)
@@ -163,3 +173,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
