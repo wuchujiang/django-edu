@@ -4,6 +4,7 @@ from django.db import models
 
 # Create your models here.
 from django.db.models import CASCADE
+from django.utils import timezone
 
 from DUEditor.models import UEditorField
 
@@ -21,7 +22,7 @@ class GoodCategory(models.Model):
 
     category_type = models.IntegerField(choices=CATEGORY_TYPE, verbose_name="类目级别",)
 
-    parent_category = models.ForeignKey("self", null=True, blank=True, verbose_name="父类别", on_delete=CASCADE)
+    parent_category = models.ForeignKey("self", null=True, blank=True, verbose_name="父类别", related_name="sub_cat", on_delete=CASCADE)
 
     is_tab = models.BooleanField(default=False, verbose_name="是否导航")
 
@@ -45,6 +46,9 @@ class Goods(models.Model):
     sold_num = models.IntegerField(default=0, verbose_name="销售量")
     fav_num = models.IntegerField(default=0, verbose_name="收藏数量")
     market_price = models.FloatField(default=0, verbose_name="本店价格")
+    shop_price = models.FloatField(default=0, verbose_name="本店价格")
+    goods_num = models.IntegerField(default=0, verbose_name="库存数")
+
     goods_brief = models.TextField(max_length=500, verbose_name="商品简短描述")
     goods_desc = UEditorField(verbose_name=u"内容", imagePath="goods/images/", width=1000, height=300,
                               filePath="goods/files/", default='')
@@ -52,7 +56,7 @@ class Goods(models.Model):
     goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True, verbose_name="封面图")
     is_new = models.BooleanField(default=False, verbose_name="是否新品")
     is_hot = models.BooleanField(default=False, verbose_name="是否热销")
-    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+    add_time = models.DateTimeField(default=timezone.now, verbose_name="添加时间")
 
     class Meta:
         verbose_name = '商品'
@@ -121,3 +125,20 @@ class HotSearchWords(models.Model):
 
     def __str__(self):
         return self.keywords
+
+
+class GoodsCategoryBrand(models.Model):
+    category = models.ForeignKey(GoodCategory, related_name="brands", null=True, blank=True, verbose_name="商品类目", on_delete=CASCADE)
+    name = models.CharField(default='', max_length=30, verbose_name='品牌名')
+    desc = models.TextField(default='',max_length=300,verbose_name='品牌描述')
+
+    image = models.ImageField(max_length=200, upload_to="brands/")
+    add_time = models.DateTimeField(default=timezone.now, verbose_name='添加时间')
+
+    class Meta:
+        verbose_name = "品牌"
+        verbose_name_plural = verbose_name
+        db_table = "goods_goodsbrand"
+
+    def __str__(self):
+        return self.name

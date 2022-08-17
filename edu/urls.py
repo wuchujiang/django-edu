@@ -22,10 +22,21 @@ from edu.settings import MEDIA_ROOT
 
 from rest_framework_jwt.views import obtain_jwt_token
 
-from goods.views import GoodsView
+from goods.views import GoodsListViewSet, GoodsListView
+from user_operation.views import UserFavViewSet
+from users.views import SmsCodeViewset, UserViewset
+
 
 urlpatterns = [
     url(r'^login', obtain_jwt_token),
-    url(r'^goods$', GoodsView.as_view({"get":"list",'post':'create'})),
-    url(r'^goods/(?P<pk>\d+)$', GoodsView.as_view({"get": "retrieve", "delete": "destroy"}))
+    url(r'^goods$', GoodsListViewSet.as_view({"get":"list"})),
+    url(r'^good2$', GoodsListView.as_view()),
+    url(r'^codes$', SmsCodeViewset.as_view({'post': 'create'})),
+    url(r'^users$', UserViewset.as_view({'post': 'create'})),
+    url(r'^users/(?P<pk>\d+)$', UserViewset.as_view({'get': 'retrieve'})),
+    url(r'^goods/(?P<pk>\d+)$', GoodsListViewSet.as_view({"get": "retrieve"})),
+    url(r'^users/fav$', UserFavViewSet.as_view({"get": "list", "post":"create" })),
+    url(r'^users/fav/(?P<pk>\d+)$', UserFavViewSet.as_view({"get": "retrieve", "delete": "destroy"}))
+
 ]
+
